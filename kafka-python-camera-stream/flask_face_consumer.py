@@ -5,7 +5,7 @@ import numpy as np
 import datetime
 
 consumer = KafkaConsumer('my-topic', bootstrap_servers='localhost:9092')
-faceCascade= cv2.CascadeClassifier('haarcascades/haarcascade_frontalface_default.xml')
+faceCascade= cv2.CascadeClassifier('../haarcascades/haarcascade_frontalface_default.xml')
 
 app = Flask(__name__)
 
@@ -29,15 +29,6 @@ def kafkastream():
         msg = cv2.imencode('.jpeg', img)[1].tobytes()
         yield(b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + msg + b'\r\n\r\n')
-    #print("Face Count : {0}".format(len(faces)))
-    # Streaming
-    #cv2.namedWindow("Image", cv2.WND_PROP_FULLSCREEN)
-    #cv2.setWindowProperty("Image", cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
-    #cv2.imshow('Image', img)
-    
-    # Quit streaming
-    #if cv2.waitKey(25) & 0xFF == ord('q'):
-    #    break
 
 @app.route('/')
 def index():
